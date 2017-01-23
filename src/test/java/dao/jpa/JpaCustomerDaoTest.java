@@ -48,6 +48,8 @@ public class JpaCustomerDaoTest {
       List<Customer> customers = customerDao.findAll();
 
       assertThat(customers.size()).isGreaterThan(3);
+
+      customers.forEach(System.out::println);
    }
 
    /*
