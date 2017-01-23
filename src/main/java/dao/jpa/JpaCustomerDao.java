@@ -21,7 +21,7 @@ class JpaCustomerDao {
       this.entityManager = entityManager;
    }
 
-   public List<Customer> findAll() throws SQLException {
+   List<Customer> findAll() throws SQLException {
       TypedQuery<Customer> query = entityManager.createQuery("from Customer c JOIN FETCH c.accounts", Customer.class);
       return query.getResultList();
    }
@@ -30,7 +30,7 @@ class JpaCustomerDao {
       return entityManager.find(Customer.class, id);
    }
 
-   public List<Customer> findByFirstName(String firstName) {
+   List<Customer> findByFirstName(String firstName) {
       TypedQuery<Customer> query = entityManager.createQuery("from Customer where firstName=:firstName", Customer.class);
       query.setParameter("firstName", firstName);
 
@@ -38,7 +38,7 @@ class JpaCustomerDao {
    }
 
 
-   public List<Customer> find(String firstName, String lastName) {
+   List<Customer> find(String firstName, String lastName) {
       final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
       final CriteriaQuery<Customer> query = builder.createQuery(Customer.class);
 
@@ -72,7 +72,7 @@ class JpaCustomerDao {
             .getResultList();
    }
 
-   public Integer create(String firstName, String lastName, String accountName) {
+    Integer create(String firstName, String lastName, String accountName) {
 
       final Customer entity = new Customer(firstName, lastName);
       entity.addAccount(new Account(accountName));
