@@ -14,16 +14,18 @@ class JdbcAccountDao {
    List<Account> getAccountByName(String name) throws SQLException {
 
       try (Connection connection = createConnection();
-           Statement statement = connection.createStatement();
-           ResultSet resultSet = statement.executeQuery("select * from accounts where name = '" + name + "'")
+           PreparedStatement statement = connection.prepareStatement("select * from accounts where name = ?")
       ) {
+         statement.setString(1, name);
+         try (ResultSet resultSet = statement.executeQuery()) {
 
-         List<Account> results = new LinkedList<>();
+            List<Account> results = new LinkedList<>();
 
-         while (resultSet.next()) {
-            results.add(new Account(resultSet.getInt("id"), resultSet.getString("name"), null));
+            while (resultSet.next()) {
+               results.add(new Account(resultSet.getInt("id"), resultSet.getString("name"), null));
+            }
+            return results;
          }
-         return results;
       }
    }
 

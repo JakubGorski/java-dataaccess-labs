@@ -57,6 +57,8 @@ class JpaDealDao {
 
       return entityManager
             .createQuery(query)
+            .setFirstResult((pageNumber - 1) * 3)
+            .setMaxResults(3)
             .getResultList();
 
    }

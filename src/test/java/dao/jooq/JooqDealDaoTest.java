@@ -43,7 +43,6 @@ public class JooqDealDaoTest {
    public void totalBalanceReport() throws SQLException {
       final Result<Record4<Integer, BigDecimal, BigDecimal, BigDecimal>> records = dealDao.totalBalanceReport();
 
-      assertThat(records).isNotNull();
       assertBalance(records.get(0), 10008, "18.12", "9.30", "-8.82");
       assertBalance(records.get(1), 10009, "3.12", "5.33", "-6.61");
       assertBalance(records.get(2), 10010, "4.12", "13.31", "2.58");
@@ -51,13 +50,13 @@ public class JooqDealDaoTest {
    }
 
    /*
-     TODO: Task 17 - Implement customerTradeBestReport that returns pairs of customer's last name and best deal value
-      */
+    TODO: Task 17 - Implement customerTradeBestReport that returns pairs of customer's last name and best deal value
+     */
    @Test
    public void bestTradeReport() throws SQLException {
       final Result<Record2<String, BigDecimal>> pairs = dealDao.customerTradeBestReport();
 
-      assertThat(pairs).isNotNull();
+
       assertThat(pairs.get(0).value1()).isEqualTo("Brown");
       assertThat(pairs.get(0).value2()).isEqualTo(new BigDecimal("9.19"));
 

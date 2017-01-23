@@ -17,11 +17,14 @@ public class Customer {
    @Column(name = "last_name")
    private String lastName;
 
-   @OneToMany()
+   @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
    @JoinColumn(name = "customer_id")
    private List<Account> accounts;
 
+
    private byte[] picture;
+
+
 
    protected Customer() {
    }

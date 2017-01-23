@@ -27,7 +27,7 @@ class JinqCustomerDao {
    List<Customer> findByFirstName(String firstName) {
 
       return streamCustomer()
-            .where(customer -> true)
+            .where(c -> firstName.toLowerCase().equals(c.getFirstName().toLowerCase()))
             .collect(toList());
    }
 

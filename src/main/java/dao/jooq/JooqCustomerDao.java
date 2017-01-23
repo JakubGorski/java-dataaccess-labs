@@ -31,7 +31,7 @@ class JooqCustomerDao {
    List<String> findNames() throws SQLException {
       try (Connection connection = createConnection()) {
          return dsl(connection).
-                                     select(CUSTOMERS.FIRST_NAME.as("CUSTOMER_NAME")).
+                                     select(CUSTOMERS.FIRST_NAME.concat(" ").concat(CUSTOMERS.LAST_NAME).as("CUSTOMER_NAME")).
                                      from(CUSTOMERS).
                                      fetch().
                                      stream()

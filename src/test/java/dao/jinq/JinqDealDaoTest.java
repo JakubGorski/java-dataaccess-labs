@@ -76,7 +76,6 @@ public class JinqDealDaoTest {
    public void bestTradeReport() {
       final List<Pair<String, BigDecimal>> pairs = dealDao.customerTradeBestReport();
 
-      assertThat(pairs).isNotNull();
       assertTrade(pairs.get(0), "Williams", "1.52");
       assertTrade(pairs.get(1), "Brown", "9.19");
       assertTrade(pairs.get(2), "King", "3.26");
@@ -85,6 +84,8 @@ public class JinqDealDaoTest {
    @Test
    public void customerTradeCountReport() {
       final List<Pair<String, Long>> pairs = dealDao.customerTradeCountReport();
+
+      pairs.forEach(pair -> System.out.println(pair.getOne() + " - " + pair.getTwo()));
 
       assertTrade(pairs.get(0), "Williams", 3);
       assertTrade(pairs.get(1), "Brown", 8);

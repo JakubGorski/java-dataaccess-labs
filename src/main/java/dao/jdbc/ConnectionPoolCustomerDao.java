@@ -1,5 +1,7 @@
 package dao.jdbc;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import dto.Customer;
 
 import javax.sql.DataSource;
@@ -10,10 +12,19 @@ import java.sql.SQLException;
 
 class ConnectionPoolCustomerDao {
 
-   private DataSource datasource;
+   private final DataSource datasource;
 
    ConnectionPoolCustomerDao() {
-//      datasource = new HikariDataSource(config);
+      HikariConfig config = new HikariConfig();
+      config.setJdbcUrl("jdbc:postgresql://localhost:5432/dealing");
+      config.setUsername("postgres");
+      config.setPassword("password1");
+
+      config.setMaximumPoolSize(10);
+      config.setMinimumIdle(5);
+      config.setConnectionTestQuery("SELECT 1");
+
+      datasource = new HikariDataSource(config);
    }
 
 

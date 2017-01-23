@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static dao.jdbc.ConnectionProvider.createConnection;
+import static org.jooq.impl.DSL.*;
 import static org.jooq.model.Tables.*;
 
 class JooqDealDao {
@@ -52,13 +53,41 @@ class JooqDealDao {
    Result<Record2<String, BigDecimal>> customerTradeBestReport() throws SQLException {
 
       try (Connection connection = createConnection()) {
-         return null;
+         return dsl(connection)
+               .select(CUSTOMERS.LAST_NAME, max(DEALS.CLOSE_PRICE
+                     .sub(DEALS.OPEN_PRICE)
+               ).as("Best trade"))
+               .from(DEALS, ACCOUNTS, CUSTOMERS)
+               .where(DEALS.ACCOUNT_ID.eq(ACCOUNTS.ID))
+               .and(ACCOUNTS.CUSTOMER_ID.eq(CUSTOMERS.ID))
+               .groupBy(CUSTOMERS.LAST_NAME)
+               .orderBy(CUSTOMERS.LAST_NAME)
+               .fetch();
       }
    }
 
    Result<Record4<Integer, BigDecimal, BigDecimal, BigDecimal>> totalBalanceReport() throws SQLException {
       try (Connection connection = createConnection()) {
-         return null;
+         return dsl(connection)
+               .select(DEALS.ID, DEALS.OPEN_PRICE, DEALS.CLOSE_PRICE,
+                     DEALS.CLOSE_PRICE
+                           .sub(DEALS.OPEN_PRICE)
+                           .add(nvl(
+                                 sum(DEALS.CLOSE_PRICE.sub(DEALS.OPEN_PRICE)).over(
+                                       partitionBy(DEALS.ACCOUNT_ID)
+                                             .orderBy(DEALS.OPEN_TIMESTAMP, DEALS.ID)
+                                             .rowsBetweenUnboundedPreceding()
+                                             .andPreceding(1)), 0
+                                 )
+                           )
+                           .as("Total balance")
+
+
+               )
+               .from(DEALS)
+               .where(DEALS.ACCOUNT_ID.eq(113))
+               .orderBy(DEALS.OPEN_TIMESTAMP, DEALS.ID)
+               .fetch();
       }
    }
 
