@@ -32,8 +32,9 @@ public class JdbcCustomerDaoTest {
     */
    @Test
    public void returnAllCustomersManyTimes() throws SQLException, IOException {
-      for (int i = 0; i < 11; i++) {
-         getCustomerById();
+      for (int i = 0; i < 200; i++) {
+         Customer customer = customerDao.get(1001);
+         assertThat(customer).isNotNull();
       }
    }
 
