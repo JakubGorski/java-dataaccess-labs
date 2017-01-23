@@ -40,7 +40,7 @@ public class JpaDealDaoTest {
    Task 9 - add pagination support to dealDao.find method. The page size is 3 records, pageNumber begins at 1.
     */
    @Test
-   public void all_deals_paginated() throws SQLException {
+   public void allDealsPaginated() throws SQLException {
       final List<Deal> deals = dealDao.find(null, null, null, 2);
 
       assertThat(deals).hasSize(3);
