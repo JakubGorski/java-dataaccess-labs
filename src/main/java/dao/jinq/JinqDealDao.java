@@ -24,10 +24,10 @@ class JinqDealDao {
 
    List<Deal> find(String instrumentName, String customerLastName, String accountName) {
       return deals().where(deal ->
-            (instrumentName == null || deal.getInstrument().getName().toLowerCase().equals(instrumentName))
+            (instrumentName == null || instrumentName.equals(deal.getInstrument().getName())
                   && (customerLastName == null || customerLastName.equals(deal.getAccount().getCustomer().getLastName()))
                   && (accountName == null || deal.getAccount().getName().equals(accountName))
-      ).collect(Collectors.toList());
+      )).collect(Collectors.toList());
    }
 
    Pair<BigDecimal, BigDecimal> findBestAndWorstDeal() {
